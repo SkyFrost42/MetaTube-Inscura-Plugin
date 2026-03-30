@@ -1,0 +1,30 @@
+{
+    "id": "metatube",
+    "name": "MetaTube",
+    "version": "1.0.0",
+    "description": "MetaTube metadata scraper plugin for Inscura",
+    "author": "SkyFrost42",
+    "homepage": "https://github.com/SkyFrost42/MetaTube-Inscura-Plugin",
+    "apiVersion": 1,
+    "entry": "index.js",
+    "capabilities": [
+        "movie",
+        "actor"
+    ],
+    "config": [
+        {
+            "key": "apiUrl",
+            "type": "text",
+            "label": {
+                "en": "API Base URL",
+                "zh-CN": "API 基础地址"
+            },
+            "required": true,
+            "placeholder": {
+                "en": "https://your-metatube-server.com",
+                "zh-CN": "https://your-metatube-server.com"
+            }
+        }
+    ],
+    "updateUrl": "https://github.com/SkyFrost42/MetaTube-Inscura-Plugin"
+}
