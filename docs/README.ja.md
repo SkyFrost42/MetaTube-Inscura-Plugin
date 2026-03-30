@@ -1,6 +1,6 @@
 # MetaTube Inscura プラグイン
 
-言語: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+言語: [English](../README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | 日本語 | [한국어](README.ko.md)
 
 これは Inscura 向けの MetaTube メタデータスクレイパープラグインです。MetaTube 互換 API を通じて作品および出演者のメタデータを取得します。
 このプラグイン自体はメタデータサービスを提供せず、サイトデータも内蔵していません。Inscura のスクレイピング要求を、ユーザーが設定した MetaTube API サービスへ転送するだけです。
@@ -125,8 +125,8 @@ https://your-metatube-server.com
 
 ## 言語版
 
-- [English](README.md)
+- [English](../README.md)
 - [简体中文](README.zh-CN.md)
 - [繁體中文](README.zh-TW.md)
-- [日本語](README.ja.md)
+- 日本語
 - [한국어](README.ko.md)

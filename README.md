@@ -7,7 +7,7 @@
 
 [![Download Latest Release](https://img.shields.io/badge/Download-Latest%20Release-2ea44f?style=for-the-badge)](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin/releases/latest)
 
-Languages: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+Languages: English | [简体中文](docs/README.zh-CN.md) | [繁體中文](docs/README.zh-TW.md) | [日本語](docs/README.ja.md) | [한국어](docs/README.ko.md)
 
 This is a MetaTube metadata scraper plugin for Inscura. It retrieves movie and actor metadata through a MetaTube-compatible API.
 The plugin itself does not provide any metadata service and does not bundle any site data. It only forwards Inscura scraping requests to the MetaTube API service configured by the user.
@@ -132,8 +132,8 @@ This plugin is suitable for:
 
 ## Language Versions
 
-- [English](README.md)
-- [简体中文](README.zh-CN.md)
-- [繁體中文](README.zh-TW.md)
-- [日本語](README.ja.md)
-- [한국어](README.ko.md)
+- English
+- [简体中文](docs/README.zh-CN.md)
+- [繁體中文](docs/README.zh-TW.md)
+- [日本語](docs/README.ja.md)
+- [한국어](docs/README.ko.md)

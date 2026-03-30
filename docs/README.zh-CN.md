@@ -1,6 +1,6 @@
 # MetaTube Inscura 插件
 
-语言版本：[English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+语言版本：[English](../README.md) | 简体中文 | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 这是一个面向 Inscura 的 MetaTube 元数据刮削插件，用于通过 MetaTube 兼容 API 获取影片与演员信息。
 本插件本身不提供元数据服务，也不内置任何站点数据。它只是把 Inscura 的刮削请求转发到你填写的 MetaTube API 服务。
@@ -125,8 +125,8 @@ https://your-metatube-server.com
 
 ## 语言版本
 
-- [English](README.md)
-- [简体中文](README.zh-CN.md)
+- [English](../README.md)
+- 简体中文
 - [繁體中文](README.zh-TW.md)
 - [日本語](README.ja.md)
 - [한국어](README.ko.md)

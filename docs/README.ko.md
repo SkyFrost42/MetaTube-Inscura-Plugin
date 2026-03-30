@@ -1,6 +1,6 @@
 # MetaTube Inscura 플러그인
 
-언어: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+언어: [English](../README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | 한국어
 
 이 플러그인은 Inscura용 MetaTube 메타데이터 스크래퍼 플러그인입니다. MetaTube 호환 API를 통해 작품 및 배우 메타데이터를 가져옵니다.
 플러그인 자체는 메타데이터 서비스를 제공하지 않으며 사이트 데이터를 내장하고 있지 않습니다. 사용자가 설정한 MetaTube API 서비스로 Inscura의 스크래핑 요청을 전달하는 역할만 합니다.
@@ -125,8 +125,8 @@ https://your-metatube-server.com
 
 ## 언어 버전
 
-- [English](README.md)
+- [English](../README.md)
 - [简体中文](README.zh-CN.md)
 - [繁體中文](README.zh-TW.md)
 - [日本語](README.ja.md)
-- [한국어](README.ko.md)
+- 한국어

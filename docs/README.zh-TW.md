@@ -1,6 +1,6 @@
 # MetaTube Inscura 外掛
 
-語言版本：[English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+語言版本：[English](../README.md) | [简体中文](README.zh-CN.md) | 繁體中文 | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 這是一個面向 Inscura 的 MetaTube 中繼資料刮削外掛，用於透過 MetaTube 相容 API 取得影片與演員資訊。
 此外掛本身不提供任何中繼資料服務，也不內建任何站點資料。它只是將 Inscura 的刮削請求轉發到你所設定的 MetaTube API 服務。
@@ -125,8 +125,8 @@ https://your-metatube-server.com
 
 ## 語言版本
 
-- [English](README.md)
+- [English](../README.md)
 - [简体中文](README.zh-CN.md)
-- [繁體中文](README.zh-TW.md)
+- 繁體中文
 - [日本語](README.ja.md)
 - [한국어](README.ko.md)
