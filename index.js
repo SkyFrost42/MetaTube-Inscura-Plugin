@@ -75,7 +75,7 @@ const plugin = {
             coverUrl: d.cover_url ?? "",
             bigCoverUrl: d.big_cover_url ?? "",
             previewVideoUrl: d.preview_video_url ?? "",
-            photos: d.sample_images ?? [],
+            photos: d.preview_images ?? [],
             maker: d.maker ?? "",
             label: d.label ?? "",
             series: d.series ?? "",
