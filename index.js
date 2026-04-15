@@ -10,6 +10,39 @@ function requireBaseUrl(config) {
     return baseUrl;
 }
 
+const URL_REWRITE_RULES = [
+    {
+        hostname: "www.javbus.com",
+        replaceWith: "www.dmmbus.bond",
+    },
+];
+
+function rewriteUrl(value) {
+    if (typeof value !== "string" || !value) {
+        return value;
+    }
+    try {
+        const url = new URL(value);
+        const rule = URL_REWRITE_RULES.find(function (item) {
+            return item.hostname === url.hostname;
+        });
+        if (!rule) {
+            return value;
+        }
+        url.hostname = rule.replaceWith;
+        return url.toString();
+    } catch {
+        return value;
+    }
+}
+
+function rewriteUrls(values) {
+    if (!Array.isArray(values)) {
+        return values ?? [];
+    }
+    return values.map(rewriteUrl);
+}
+
 async function readJson(resp) {
     if (!resp.ok) {
         throw new Error(`HTTP ${resp.status}`);
@@ -47,8 +80,8 @@ const plugin = {
                 provider: item.provider ?? "",
                 number: item.number ?? "",
                 title: item.title ?? "",
-                thumbUrl: item.thumb_url ?? "",
-                coverUrl: item.cover_url ?? "",
+                thumbUrl: rewriteUrl(item.thumb_url ?? ""),
+                coverUrl: rewriteUrl(item.cover_url ?? ""),
                 score: item.score ?? 0,
                 actors: item.actors ?? [],
                 releaseDate: item.release_date ?? "",
@@ -70,12 +103,12 @@ const plugin = {
             summary: d.summary ?? "",
             director: d.director ?? "",
             actors: d.actors ?? [],
-            thumbUrl: d.thumb_url ?? "",
-            bigThumbUrl: d.big_thumb_url ?? "",
-            coverUrl: d.cover_url ?? "",
-            bigCoverUrl: d.big_cover_url ?? "",
-            previewVideoUrl: d.preview_video_url ?? "",
-            photos: d.preview_images ?? [],
+            thumbUrl: rewriteUrl(d.thumb_url ?? ""),
+            bigThumbUrl: rewriteUrl(d.big_thumb_url ?? ""),
+            coverUrl: rewriteUrl(d.cover_url ?? ""),
+            bigCoverUrl: rewriteUrl(d.big_cover_url ?? ""),
+            previewVideoUrl: rewriteUrl(d.preview_video_url ?? ""),
+            photos: rewriteUrls(d.preview_images),
             maker: d.maker ?? "",
             label: d.label ?? "",
             series: d.series ?? "",
@@ -97,7 +130,7 @@ const plugin = {
                 id: item.id ?? "",
                 provider: item.provider ?? "",
                 name: item.name ?? "",
-                avatar: item.images?.[0] ?? "",
+                avatar: rewriteUrl(item.images?.[0] ?? ""),
                 matchScore: "",
             };
         });
@@ -120,8 +153,8 @@ const plugin = {
             height: d.height ? String(d.height) : "",
             measurements: d.measurements ?? "",
             nationality: d.nationality ?? "",
-            avatar: d.images?.[0] ?? "",
-            photos: d.images ?? [],
+            avatar: rewriteUrl(d.images?.[0] ?? ""),
+            photos: rewriteUrls(d.images),
             skills: d.skill ? [d.skill] : [],
             socialLinks: [],
             hobby: d.hobby ?? "",
