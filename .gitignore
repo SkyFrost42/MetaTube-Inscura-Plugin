@@ -1,4 +1,6 @@
 AGENTS.md
+.build/
+node_modules/
 release/
 .DS_Store
 scripts/

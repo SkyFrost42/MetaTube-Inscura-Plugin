@@ -1,0 +1,11 @@
+{
+    "name": "metatube-inscura-plugin",
+    "private": true,
+    "version": "1.0.5",
+    "scripts": {
+        "build": "node build.mjs"
+    },
+    "devDependencies": {
+        "vite": "^5.4.19"
+    }
+}
