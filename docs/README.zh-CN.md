@@ -1,132 +1,55 @@
-# MetaTube Inscura 插件
+# MetaTube for Inscura
 
-语言版本：[English](../README.md) | 简体中文 | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+[日本語](../README.md) · [English](README.en.md) · 简体中文 · [繁體中文](README.zh-TW.md) · [한국어](README.ko.md)
 
-这是一个面向 Inscura 的 MetaTube 元数据刮削插件，用于通过 MetaTube 兼容 API 获取影片与演员信息。
-本插件本身不提供元数据服务，也不内置任何站点数据。它只是把 Inscura 的刮削请求转发到你填写的 MetaTube API 服务。
+MetaTube 1.1.0 通过你自建的 MetaTube 服务刮削影片和人物信息，支持搜索与详情获取。插件 ID 保持为 `metatube`，能力为 `media` 和 `actor`，作者及仓库仍为 [SkyFrost42](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin)。
 
-插件遵循 Inscura 的插件开发规范实现，当前同时支持：
+## 安装与配置
 
-- 影片搜索与影片详情刮削
-- 演员搜索与演员详情刮削
+在 Inscura → 设置 → 插件 → 从 ZIP 安装，选择 `metatube-v1.1.0.zip`。填入服务根地址 `apiUrl`，不需要追加 `/v1`，可以保留反向代理子路径；服务启用鉴权时，再填写管理员设置的 Bearer 令牌 `apiToken`。令牌仅在 Inscura 中填写，不放入源码或 URL。服务未启用鉴权时可留空。
 
-## 功能说明
+启用插件会访问受保护的只读接口 `/v1/db/version` 进行连接测试。随后在刮削界面选择插件和来源。连接测试成功不代表每个上游来源都可用。除连接信息外，其余配置可采用默认值。
 
-本插件声明了 `movie` 和 `actor` 两项能力，因此可在 Inscura 中用于以下场景：
+| 设置 / 键 | 必填 | 默认值 | 用途 / 取值来源 |
+| --- | --- | --- | --- |
+| 服务地址 / `apiUrl` | 是 | 空 | 由服务器管理员提供 MetaTube 根地址，包含 http:// 或 https://。 |
+| Bearer 令牌（可选） / `apiToken` | 否 | 空 | 由服务管理员提供；未开启鉴权时留空。仅经 Authorization 请求头发送。 |
+| 影片来源 / `movieProviders` | 否 | `["default"]` | 仅选中 MetaTube 时使用。默认或空列表交由服务端选择；原生来源选择优先。 |
+| 演员来源 / `actorProviders` | 否 | `["default"]` | 仅选中 MetaTube 时使用。空值/default 使用服务端默认；原生来源优先。 |
+| 使用缓存补全搜索 / `fallback` | 否 | `true` | 将 fallback 交给 MetaTube，使用其数据库补全搜索结果，不代表插件重试。 |
+| 详情模式 / `detailMode` | 否 | `"full"` | 完整模式发送 lazy=false 刷新上游；缓存模式发送 lazy=true。 |
+| 返回图片 URL / `includeImages` | 否 | `true` | 默认开启，保留重要图片资产。返回图片 URL；应用元数据时 Inscura 下载受支持的图片。仍须遵守来源图片使用条款。 |
+| 图片地址模式 / `imageMode` | 否 | `"proxy"` | 推荐代理模式：MetaTube primary/backdrop 接口区分海报与封面，不拼接令牌。直连使用上游 URL；预览图片仍使用来源 URL。 |
+| 返回预览图片 / `includePreviewImages` | 否 | `true` | 需同时开启返回图片 URL。 |
+| 预览图片数量上限 / `maxPreviewImages` | 否 | `20` | 限制返回的预览图片 URL 数量，范围 0–100。 |
+| 预览视频 URL / `previewVideoMode` | 否 | `"auto"` | 自动优先 HLS，其次 MP4。插件只返回 URL，不播放或下载视频。 |
+| 返回评论 / `includeReviews` | 否 | `false` | 会额外请求 API，将评论放入自定义文本字段，默认关闭。评论请求失败会报错。 |
+| 评论数量上限 / `maxReviews` | 否 | `5` | 限制导入评论数量，范围 0–50。为 0 时不请求评论。 |
+| 返回演员扩展字段 / `includeActorExtendedFields` | 否 | `true` | 返回已有日期、别名、身高三围、技能及已声明的自定义属性；缺失值不补造。 |
+| 返回来源自定义字段 / `includeCustomFields` | 否 | `true` | 保留来源 provider/ID、页面与图片 URL、来源时长（分钟），不修改本地文件时长。 |
+| 请求超时（秒） / `requestTimeout` | 否 | `30` | 单次请求超时，5–180 秒。 |
 
-- 通过番号、标题或关键词搜索影片
-- 获取影片详情，包括标题、简介、导演、演员、评分、发行日期、封面、样张和预览视频等信息
-- 搜索演员
-- 获取演员详情，包括别名、生日、身高、三围、国籍、头像和照片等信息
+## 行为说明
 
-## 安装方法
+- Inscura 中直接选择的来源优先于 `movieProviders` / `actorProviders`。这两个列表只在选择聚合来源 MetaTube 时生效。空列表或包含 `default` 的任何列表均交由服务端选择；多个具体来源依次查询，以 provider 和 ID 的组合去重。
+- 图片及预览图默认开启。`includeImages=false` 会省略所有图片 URL，包括自定义字段中的图片地址。代理模式使用 MetaTube 的 `primary` / `backdrop`；直连模式使用源站地址。预览图和人物图库始终保留源站 URL，图片 URL 不附带令牌。图片能否下载、解码、保存与展示仍需分别验证。
+- 预览图上限为 0–100，默认 20；设为 0 时不返回预览图。视频 `auto` 优先 HLS，再选 MP4。评论默认关闭，启用后增加请求；评论上限为 0–50，0 表示不请求。主动启用的评论获取失败会报错。
+- `includeCustomFields` 只控制来源信息与来源时长；评论及人物扩展字段由各自开关独立控制。来源时长以分钟保存在自定义字段，不会改写本地文件时长。
+- 仅将已核实的 FANZA 五分制换算为十分制；其他来源的评分尺度未核实前省略。未知字段不填入空字符串或 0，不从人物姓名伪造 ID。影片演职人员使用 `cast` / `crew`。
+- 标准服务声明 30 个影片来源及人物来源 Gfriends，另提供 MetaTube 聚合选择。这是兼容快照，不保证所有站点可用。标准 Gfriends 主要提供姓名、图片和来源页面；人物扩展开关不会补造不存在的生日、三围等信息。
+- 搜索 404 表示无匹配；详情或评论 404、401/403、429、网络错误、无效 JSON 及身份不一致均报错。仅评论成功响应中的 `data:null` 视为空评论。没有自动重试。
+- MetaTube 搜索和详情没有语言参数，插件不调用翻译 API。五语言配置标签与 Inscura 的元数据翻译是不同能力，嵌套字段的实际翻译效果仍需验证。
 
-1. 从项目的 [GitHub Releases](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin/releases) 页面下载正式发布的插件 `.zip` 安装包。
-2. 在 Inscura 的插件管理界面安装该 `.zip` 包。
-3. 安装完成后，填写插件配置中的 `API Base URL`。
-4. 执行测试并启用插件。
+插件只返回元数据和 URL，不读取或改写原始媒体。下载和保存受支持的图片由 Inscura 在应用元数据时完成。
 
-如果插件测试通过，说明 Inscura 已能够访问你配置的 MetaTube 服务。
+## 来源与验证
 
-## 配置说明
+2026-10-28 核对了 [MetaTube 官方源码](https://github.com/metatube-community/metatube-sdk-go/tree/fdadc9c8e321947fb6533fb0beab2a92f1c2b065)，包括路由、鉴权、模型、图片、评论、FANZA 评分和 Gfriends 行为。实现基于 [Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill/tree/94190ee7704e285b2ae243af6ee9d22fbc8fb983) 的 MIT 参考实现；署名与许可见根目录 `ATTRIBUTION.md`、`LICENSE`。SDK 的 Apache-2.0 许可不授予上游元数据和图片的使用权，请遵守各来源条款。未查到统一公开限流值，遇到 429 请稍后再试。
 
-当前插件只有一个必填配置项：
+具体验证状态以根目录 [README 的验证记录](../README.md#検証状況) 为准。当前未配置真实服务，实网 API、图片下载与解码、Inscura 安装和运行、图片保存与展示、翻译均未验证。合成响应测试不能替代这些验证。
 
-- `apiUrl`：MetaTube API 的基础地址
+## 开发与升级
 
-示例：
+Node.js 18.13 及以上，无需安装 npm 依赖。编辑 `src/index.js` 和 `manifest.json`；`npm run build` 生成单文件入口，`npm run validate` 校验，`npm test` 运行测试，`npm run pack` 打包。官方工具和测试在 `vendor/inscura-scraper-skill/`，合成测试数据不会进入安装包。
 
-```text
-https://your-metatube-server.com
-```
-
-请填写服务根地址，不要手动追加 `/v1`。插件会自动请求以下接口：
-
-- `/v1/movies/search?q=...`
-- `/v1/movies/{provider}/{id}`
-- `/v1/actors/search?q=...`
-- `/v1/actors/{provider}/{id}`
-
-## 使用方法
-
-完成安装和配置后，你可以在 Inscura 中直接使用该插件进行刮削：
-
-1. 在插件管理中启用 MetaTube 插件。
-2. 确认 `API Base URL` 可正常访问。
-3. 在影片或演员刮削界面选择该插件。
-4. 输入关键词进行搜索。
-5. 从搜索结果中选择正确条目并写入元数据。
-
-## 测试与激活
-
-插件实现了 `test(ctx)` 方法。Inscura 在测试或激活插件时，会先访问你配置的 `apiUrl` 根地址。
-
-这意味着：
-
-- `apiUrl` 不能为空
-- 目标服务必须可从 Inscura 所在环境访问
-- 根地址需要返回成功状态码，否则插件测试会失败
-
-如果测试失败，常见原因通常是地址填写错误、服务未启动、服务不可达，或你填入了错误的路径。
-
-## 注意事项
-
-- 这是一个依赖远程 MetaTube 服务的插件，无法离线工作。
-- 插件不会直接抓取网页，而是依赖 MetaTube 兼容 API 返回结构化数据。
-- 建议始终使用 Releases 页面提供的正式发布包，不要随意安装来源不明或自行修改后再分发的构建产物。
-- `apiUrl` 应填写站点根地址，例如 `https://example.com`，而不是 `https://example.com/v1`。
-- 影片和演员的最终数据质量，取决于你所连接的 MetaTube 服务及其上游数据源。
-- 如果服务端返回非 2xx 状态码，插件会将其视为失败。
-- 如果服务端字段缺失，插件会回退为空字符串、空数组或 `0`，因此部分条目可能出现信息不完整的情况。
-- 当前插件适用于 Inscura API Version 1。
-
-## 合规与法律风险说明
-
-- 本插件仅用于合法的媒体信息整理、索引和元数据管理用途。
-- 用户应自行确认对目标 MetaTube 服务、上游数据源及相关媒体内容拥有合法访问和使用权限。
-- 请遵守你所在司法辖区的法律法规，以及目标服务的使用条款、版权规则、隐私规则和数据抓取政策。
-- 请勿使用本插件获取、整理、传播或分发任何侵犯版权、隐私权、肖像权或其他合法权益的内容。
-- 如果相关内容在你的地区受年龄、内容分级、网络访问或传播限制，你应自行承担合规判断与使用责任。
-- 插件作者与维护者不对第三方服务返回的数据合法性、完整性、可用性或持续性作保证。
-- 本插件不内置任何受保护媒体内容，也不提供用于绕过付费、鉴权、地域限制或其他访问控制的能力。
-
-以上说明不构成法律意见。如你的使用场景涉及版权合规、内容合规或跨境访问风险，建议先咨询专业法律意见。
-
-## 返回的数据范围
-
-影片数据通常包括：
-
-- 基本标识：`id`、`provider`、`number`
-- 文本信息：`title`、`summary`、`director`
-- 关联信息：`actors`、`maker`、`label`、`series`、`genres`
-- 媒体资源：`thumbUrl`、`coverUrl`、`bigThumbUrl`、`bigCoverUrl`、`previewVideoUrl`、`photos`
-- 其他信息：`score`、`releaseDate`
-
-演员数据通常包括：
-
-- 基本标识：`id`、`provider`、`name`
-- 个人信息：`aliases`、`birthday`、`height`、`measurements`、`nationality`
-- 媒体资源：`avatar`、`photos`
-
-## 适用对象
-
-这个插件适合以下用户：
-
-- 已经部署或能够访问 MetaTube 兼容服务的 Inscura 用户
-- 希望在 Inscura 中统一使用 MetaTube 数据进行影片与演员刮削的用户
-- 希望将 Inscura 与 MetaTube 社区生态接入的用户
-
-## 已知限制
-
-- 插件目前没有额外的高级筛选配置项。
-- 插件不负责账号登录、反爬处理、代理配置或服务部署。
-- 演员详情中的描述、出道日期、技能和社交链接当前未由插件填充。
-- 实际可用字段取决于服务端返回内容，不保证每个条目都完整。
-
-## 语言版本
-
-- [English](../README.md)
-- 简体中文
-- [繁體中文](README.zh-TW.md)
-- [日本語](README.ja.md)
-- [한국어](README.ko.md)
+1.1.0 保留插件 ID 与已有 `apiUrl` 键，新增项提供默认值，不进行数据库或原始媒体迁移。旧 `movie` 接口升级为 `media`，同时移除了硬编码第三方镜像域名替换。完整分析见 [更新记录（日语）](UPGRADE.md)。

@@ -1,11 +1,14 @@
 {
-    "name": "metatube-inscura-plugin",
-    "private": true,
-    "version": "1.0.5",
-    "scripts": {
-        "build": "node build.mjs"
-    },
-    "devDependencies": {
-        "vite": "^5.4.19"
-    }
+  "name": "metatube-inscura-plugin",
+  "private": true,
+  "version": "1.1.0",
+  "engines": {
+    "node": ">=18.13.0"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "validate": "node vendor/inscura-scraper-skill/tools/inscura.mjs validate .",
+    "test": "node build.mjs && node tools/test.mjs",
+    "pack": "node build.mjs && node vendor/inscura-scraper-skill/tools/inscura.mjs pack ."
+  }
 }
