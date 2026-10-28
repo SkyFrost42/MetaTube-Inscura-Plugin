@@ -49,7 +49,7 @@ Thank you to the developers and contributors behind the projects that make this 
 - [MetaTube](https://github.com/metatube-community/metatube-sdk-go) provides the movie and person metadata API and self-hosted server used by this plugin.
 - [Inscura](https://inscura.app) provides the media library, plugin system and development specification. This plugin also uses the reference implementation and validation tools from [Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill).
 
-See [ATTRIBUTION.md](../ATTRIBUTION.md) and [LICENSE](../LICENSE) for source credits and license details. Japanese is the default project README; use the links at the top to read another language.
+See [ATTRIBUTION.md](../ATTRIBUTION.md) and [LICENSE](../LICENSE) for source credits and license details.
 
 ## Sources and verification
 

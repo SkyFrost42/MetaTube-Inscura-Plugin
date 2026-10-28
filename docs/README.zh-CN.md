@@ -49,7 +49,7 @@ MetaTube 1.1.0 通过你自建的 MetaTube 服务刮削影片和人物信息，�
 - [MetaTube](https://github.com/metatube-community/metatube-sdk-go)：提供影片与人物元数据 API，以及可自行部署的服务端。
 - [Inscura](https://inscura.app)：提供媒体库、插件机制与开发规范。本插件还使用了 [Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill) 的参考实现和校验工具。
 
-源码署名与许可详见 [ATTRIBUTION.md](../ATTRIBUTION.md) 和 [LICENSE](../LICENSE)。项目默认首页为日文，可通过顶部导航切换语言。
+源码署名与许可详见 [ATTRIBUTION.md](../ATTRIBUTION.md) 和 [LICENSE](../LICENSE)。
 
 ## 来源与验证
 
