@@ -1,5 +1,7 @@
 # MetaTube for Inscura
 
+**日本語** · [English](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin/blob/main/docs/README.en.md) · [简体中文](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin/blob/main/docs/README.zh-CN.md) · [繁體中文（台灣）](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin/blob/main/docs/README.zh-TW.md) · [한국어](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin/blob/main/docs/README.ko.md)
+
 セルフホストの MetaTube サーバーから、作品と人物のメタデータを取得する Inscura 用プラグインです。作品・人物の検索と詳細取得に対応しています。
 
 - バージョン: **1.1.0** / プラグイン ID: `metatube` / `apiVersion: 1`
@@ -7,7 +9,7 @@
 - 対応機能: `media`・`actor`
 - 設定画面: 日本語・英語・簡体字中国語・繁体字中国語・韓国語
 
-英語・簡体字中国語・繁体字中国語・韓国語の説明は、ソースツリーの `docs/README.en.md`、`docs/README.zh-CN.md`、`docs/README.zh-TW.md`、`docs/README.ko.md` にあります。インストール用 ZIP には、この日本語 README を同梱しています。
+日本語を既定の説明とし、英語・簡体字中国語・台湾繁体字中国語・韓国語の README は上部のリンクから参照できます。インストール用 ZIP には、この日本語 README を同梱しています。
 
 ## インストール
 
@@ -93,6 +95,15 @@ The scraping language is injected by Inscura as `ctx.config.language`; it is not
 MetaTube の検索・詳細 API に言語指定はないため、翻訳 API は呼びません。設定ラベルの多言語対応と、Inscura による取得後のメタデータ翻訳は別の機能です。翻訳可能な項目は宣言していますが、入れ子のクレジットやカスタム項目が実際に翻訳されるかは、利用する Inscura のビルドと設定に依存します。
 
 プラグインが返すのはメタデータと URL だけです。元のメディアファイルを読み書きしたり、画像・動画を直接保存したりしません。対応画像のダウンロードと保存は、メタデータ適用時に Inscura が行います。
+
+## 謝辞
+
+このプラグインの開発を支える、次のプロジェクトと開発者・貢献者の皆さまに感謝します。
+
+- [MetaTube](https://github.com/metatube-community/metatube-sdk-go): 作品・人物のメタデータを取得する API と、セルフホスト可能なサーバーを提供してくださっています。
+- [Inscura](https://inscura.app): メディアライブラリとプラグインの仕組み、開発仕様を提供してくださっています。[Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill) の参照実装と検証ツールも活用しています。
+
+使用した実装の著作権表示とライセンスは [ATTRIBUTION.md](ATTRIBUTION.md) と [LICENSE](LICENSE) を参照してください。
 
 ## データソースとライセンス
 

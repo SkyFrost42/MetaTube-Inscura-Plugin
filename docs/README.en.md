@@ -1,6 +1,6 @@
 # MetaTube for Inscura
 
-[日本語](../README.md) · English · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [한국어](README.ko.md)
+[日本語](../README.md) · **English** · [简体中文](README.zh-CN.md) · [繁體中文（台灣）](README.zh-TW.md) · [한국어](README.ko.md)
 
 MetaTube 1.1.0 searches and retrieves movie and person metadata from your self-hosted MetaTube server. The plugin keeps ID `metatube`, author and repository [SkyFrost42](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin), and implements the current `media` and `actor` capabilities.
 
@@ -41,6 +41,15 @@ Enabling the plugin tests the protected, read-only `/v1/db/version` endpoint. Th
 - MetaTube search/detail APIs have no language parameter; the plugin does not call translation APIs. Five-language settings labels and Inscura metadata translation are separate. Actual translation of nested fields remains unverified.
 
 The plugin returns metadata and URLs only. It does not access or modify original media. Inscura downloads and saves supported images when applying metadata.
+
+## Acknowledgements
+
+Thank you to the developers and contributors behind the projects that make this plugin possible:
+
+- [MetaTube](https://github.com/metatube-community/metatube-sdk-go) provides the movie and person metadata API and self-hosted server used by this plugin.
+- [Inscura](https://inscura.app) provides the media library, plugin system and development specification. This plugin also uses the reference implementation and validation tools from [Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill).
+
+See [ATTRIBUTION.md](../ATTRIBUTION.md) and [LICENSE](../LICENSE) for source credits and license details. Japanese is the default project README; use the links at the top to read another language.
 
 ## Sources and verification
 

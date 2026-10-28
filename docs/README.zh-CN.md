@@ -1,6 +1,6 @@
 # MetaTube for Inscura
 
-[日本語](../README.md) · [English](README.en.md) · 简体中文 · [繁體中文](README.zh-TW.md) · [한국어](README.ko.md)
+[日本語](../README.md) · [English](README.en.md) · **简体中文** · [繁體中文（台灣）](README.zh-TW.md) · [한국어](README.ko.md)
 
 MetaTube 1.1.0 通过你自建的 MetaTube 服务刮削影片和人物信息，支持搜索与详情获取。插件 ID 保持为 `metatube`，能力为 `media` 和 `actor`，作者及仓库仍为 [SkyFrost42](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin)。
 
@@ -41,6 +41,15 @@ MetaTube 1.1.0 通过你自建的 MetaTube 服务刮削影片和人物信息，�
 - MetaTube 搜索和详情没有语言参数，插件不调用翻译 API。五语言配置标签与 Inscura 的元数据翻译是不同能力，嵌套字段的实际翻译效果仍需验证。
 
 插件只返回元数据和 URL，不读取或改写原始媒体。下载和保存受支持的图片由 Inscura 在应用元数据时完成。
+
+## 致谢
+
+感谢以下项目的开发者和贡献者，为本插件提供基础能力与开发支持：
+
+- [MetaTube](https://github.com/metatube-community/metatube-sdk-go)：提供影片与人物元数据 API，以及可自行部署的服务端。
+- [Inscura](https://inscura.app)：提供媒体库、插件机制与开发规范。本插件还使用了 [Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill) 的参考实现和校验工具。
+
+源码署名与许可详见 [ATTRIBUTION.md](../ATTRIBUTION.md) 和 [LICENSE](../LICENSE)。项目默认首页为日文，可通过顶部导航切换语言。
 
 ## 来源与验证
 

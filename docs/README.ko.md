@@ -1,32 +1,32 @@
 # MetaTube for Inscura
 
-[日本語](../README.md) · [English](README.en.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · 한국어
+[日本語](../README.md) · [English](README.en.md) · [简体中文](README.zh-CN.md) · [繁體中文（台灣）](README.zh-TW.md) · **한국어**
 
 MetaTube 1.1.0은 직접 운영하는 MetaTube 서버에서 작품 및 인물 메타데이터를 검색하고 상세 정보를 가져오는 플러그인입니다. 플러그인 ID는 `metatube`이며 `media`와 `actor` 기능을 지원합니다. 작성자와 저장소는 기존 [SkyFrost42](https://github.com/SkyFrost42/MetaTube-Inscura-Plugin)를 유지합니다.
 
 ## 설치 및 설정
 
-Inscura → 설정 → 플러그인 → ZIP에서 설치에서 `metatube-v1.1.0.zip`을 선택합니다. `apiUrl`에 HTTP 또는 HTTPS를 포함한 서버 기본 URL을 입력합니다. `/v1`을 덧붙이지 마세요. 리버스 프록시의 하위 경로는 사용할 수 있습니다. 서버에서 인증을 사용하는 경우 관리자가 설정한 Bearer 토큰을 `apiToken`에 입력하고, 인증을 사용하지 않는 경우 비워 둡니다. 토큰은 Inscura 설정에만 입력하고 소스 코드나 URL에 넣지 마세요.
+Inscura의 **설정 → 플러그인 → ZIP에서 설치**에서 `metatube-v1.1.0.zip`을 선택합니다. `apiUrl`에 HTTP 또는 HTTPS를 포함한 서버 기본 URL을 입력합니다. `/v1`을 덧붙이지 마세요. 리버스 프록시의 하위 경로는 사용할 수 있습니다. 서버에서 인증을 사용하는 경우 관리자가 설정한 Bearer 토큰을 `apiToken`에 입력하고, 인증을 사용하지 않는 경우 비워 둡니다. 토큰은 Inscura 설정에만 입력하고 소스 코드나 URL에 넣지 마세요.
 
 플러그인을 활성화하면 인증이 적용되는 읽기 전용 `/v1/db/version` 엔드포인트로 연결을 테스트합니다. 이후 스크래핑 화면에서 플러그인과 소스를 선택합니다. 연결 테스트에 성공해도 모든 상위 소스의 작동이 확인되는 것은 아닙니다. 나머지 설정은 기본값으로 시작할 수 있습니다.
 
 | 설정 | 키 | 필수 | 기본값 | 설명 |
 | --- | --- | --- | --- | --- |
-| 서버 URL | `apiUrl` | 예 | 비어 있음 | http:// 또는 https:// 를 포함한 MetaTube 기본 URL입니다. |
+| 서버 URL | `apiUrl` | 예 | 비어 있음 | http:// 또는 https://를 포함한 MetaTube 기본 URL입니다. |
 | Bearer 토큰 (선택) | `apiToken` | 아니요 | 비어 있음 | 관리자에게 받은 토큰입니다. 인증이 꺼져 있으면 비워 두세요. Authorization 헤더로만 보냅니다. |
 | 영상 소스 | `movieProviders` | 아니요 | `["default"]` | MetaTube 선택 시에만 사용합니다. 기본값 또는 빈 목록은 서버가 선택하며 직접 선택한 소스가 우선합니다. |
 | 배우 소스 | `actorProviders` | 아니요 | `["default"]` | MetaTube 선택 시에만 사용합니다. 빈 값/default는 서버 기본값이며 직접 선택이 우선합니다. |
 | 캐시 검색 결과 포함 | `fallback` | 아니요 | `true` | MetaTube에 fallback을 전달해 DB 검색 결과를 보충합니다. 플러그인 재시도가 아닙니다. |
 | 상세 모드 | `detailMode` | 아니요 | `"full"` | 전체는 lazy=false, 캐시는 lazy=true를 전송합니다. |
-| 이미지 URL 포함 | `includeImages` | 아니요 | `true` | 중요한 이미지 자산을 보존하도록 기본으로 켜집니다. 이미지 URL을 반환하며 메타데이터 적용 시 Inscura가 지원 이미지를 다운로드합니다. 출처의 이미지 이용 약관이 적용됩니다. |
+| 이미지 URL 포함 | `includeImages` | 아니요 | `true` | 소스에서 제공하는 이미지를 유지하도록 기본적으로 켜져 있습니다. 이미지 URL을 반환하며, 메타데이터를 적용할 때 Inscura가 지원되는 이미지를 다운로드합니다. 소스의 이미지 이용 약관이 적용됩니다. |
 | 이미지 URL 방식 | `imageMode` | 아니요 | `"proxy"` | 프록시를 권장합니다. MetaTube primary/backdrop은 토큰 없이 포스터와 커버를 구분합니다. 직접 모드와 미리보기 사진은 원본 URL을 사용합니다. |
 | 미리보기 사진 포함 | `includePreviewImages` | 아니요 | `true` | 이미지 URL 포함을 켜야 합니다. |
 | 미리보기 사진 최대 수 | `maxPreviewImages` | 아니요 | `20` | 반환할 사진 URL 수를 0~100으로 제한합니다. |
-| 미리보기 동영상 URL | `previewVideoMode` | 아니요 | `"auto"` | 자동은 HLS, 다음 MP4를 선택합니다. URL만 반환하며 재생하거나 다운로드하지 않습니다. |
-| 리뷰 포함 | `includeReviews` | 아니요 | `false` | 추가 API로 리뷰를 사용자 정의 필드에 반환합니다. 기본은 꺼짐이며 요청 실패는 오류로 표시됩니다. |
+| 미리보기 동영상 URL | `previewVideoMode` | 아니요 | `"auto"` | 자동 모드는 HLS를 우선하고, 없으면 MP4를 선택합니다. URL만 반환하며 재생하거나 다운로드하지 않습니다. |
+| 리뷰 포함 | `includeReviews` | 아니요 | `false` | 추가 API 요청으로 리뷰를 가져와 사용자 지정 필드에 반환합니다. 기본적으로 꺼져 있으며, 요청에 실패하면 오류를 표시합니다. |
 | 리뷰 최대 수 | `maxReviews` | 아니요 | `5` | 리뷰 수를 0~50으로 제한합니다. 0은 요청을 생략합니다. |
-| 배우 추가 필드 포함 | `includeActorExtendedFields` | 아니요 | `true` | 제공되는 날짜, 별명, 신체 정보, 기술 및 사용자 정의 속성을 반환합니다. 없는 값은 생략합니다. |
-| 출처 사용자 정의 필드 포함 | `includeCustomFields` | 아니요 | `true` | 출처 provider/ID, URL 및 분 단위 재생 시간을 보존합니다. 로컬 파일 길이는 변경하지 않습니다. |
+| 배우 추가 필드 포함 | `includeActorExtendedFields` | 아니요 | `true` | 제공되는 날짜, 다른 이름, 신체 정보, 특기 및 사용자 지정 속성을 반환합니다. 없는 값은 생략합니다. |
+| 출처 사용자 지정 필드 포함 | `includeCustomFields` | 아니요 | `true` | 출처 provider/ID, URL 및 분 단위 재생 시간을 보존합니다. 로컬 파일의 재생 시간은 변경하지 않습니다. |
 | 요청 제한 시간 (초) | `requestTimeout` | 아니요 | `30` | 각 요청의 제한 시간은 5~180초입니다. |
 
 ## 동작 방식
@@ -47,6 +47,12 @@ Inscura → 설정 → 플러그인 → ZIP에서 설치에서 `metatube-v1.1.0.
 2026-10-28에 [MetaTube 공식 소스](https://github.com/metatube-community/metatube-sdk-go/tree/fdadc9c8e321947fb6533fb0beab2a92f1c2b065)의 경로, 인증, 모델, 이미지, 리뷰, FANZA 평가 척도 및 Gfriends 동작을 확인했습니다. 구현은 [Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill/tree/94190ee7704e285b2ae243af6ee9d22fbc8fb983)의 MIT 참조 구현을 기반으로 합니다. 저작권 및 라이선스는 루트의 `ATTRIBUTION.md`와 `LICENSE`를 참조하세요. SDK의 Apache-2.0 라이선스가 상위 소스의 메타데이터와 이미지 사용권까지 부여하지는 않습니다. 각 소스의 이용 조건을 따라야 합니다. 공통으로 공개된 요청 한도는 확인되지 않았으며 429 응답 시 나중에 다시 시도하세요.
 
 단계별 상태는 루트 [검증 기록](../README.md#検証状況)을 참조하세요. 실제 서버가 설정되지 않아 실제 API, 이미지 다운로드 및 디코딩, Inscura 설치와 실행, 이미지 저장과 표시, 번역은 검증하지 않았습니다. 합성 응답 테스트로 이러한 결과를 대신할 수 없습니다.
+
+## 감사의 말
+
+작품과 인물의 메타데이터 API를 제공하는 [MetaTube](https://github.com/metatube-community/metatube-sdk-go)에 감사드립니다. 이 API를 통해 직접 운영하는 서버에서 플러그인에 필요한 정보를 가져올 수 있습니다.
+
+미디어 라이브러리와 플러그인 기능, 개발 규격을 제공하는 [Inscura](https://inscura.app)에도 감사드립니다. 참조 구현과 검증 도구는 [Inscura Scraper Skill](https://github.com/InscuraApp/inscura-scraper-skill)을 활용했습니다.
 
 ## 개발 및 업그레이드
 
